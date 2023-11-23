@@ -19,10 +19,10 @@ enum
  */
 enum
 {
-    done = 0,
-    next = 1,
-    command1 = 2,
-    command2 = 3,
+    done = 1,
+    next = 2,
+    command1 = 3,
+    command2 = 4,
 };
 
 int pick_order[10] = {blue, red, red, blue, blue, red, red, blue, blue, red};
@@ -89,7 +89,7 @@ namespace champion
             std::cout << "Ally:\t";
             for (size_t i = 0; i < names.size(); i++)
             {
-                std::cout << "Name: " << names[i] << ", Position: " << pos_str[positions[i]] << "/ ";
+                std::cout << "Name: " << names[i] << ", Position: " << pos_str[positions[i]] << "\t";
             }
             std::cout << std::endl;
         }
@@ -114,6 +114,7 @@ namespace champion
                 if (positions[i] == myPos)
                     return names[i];
             }
+            return "";
         }
 
         void print() const
@@ -121,7 +122,7 @@ namespace champion
             std::cout << "Enemy:\t";
             for (size_t i = 0; i < names.size(); i++)
             {
-                std::cout << "Name: " << names[i] << ", Position: " << pos_str[positions[i]] << "/ ";
+                std::cout << "Name: " << names[i] << ", Position: " << pos_str[positions[i]] << "\t";
             }
             std::cout << std::endl;
         }
@@ -172,7 +173,7 @@ std::string completion(std::string prompt, int max_tokens, float temperature)
 
     return (std::string)completion["choices"][0]["text"];
 }
-std::string image_url(std::string prompt)
+std::string imageURL(std::string prompt)
 {
     nlohmann::json input;
 
@@ -185,7 +186,7 @@ std::string image_url(std::string prompt)
     return (std::string)image["data"][0]["url"];
 }
 
-std::string image_url(std::string prompt, std::string size)
+std::string imageURL(std::string prompt, std::string size)
 {
     nlohmann::json input;
 
