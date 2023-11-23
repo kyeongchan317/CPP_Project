@@ -7,7 +7,7 @@ enum
     blue = 0,
     red = 1,
 };
-
+/*
 enum
 {
     top = 0,
@@ -16,16 +16,17 @@ enum
     adcarry = 3,
     supporter = 4,
 };
-
+ */
 enum
 {
     done = 0,
     next = 1,
     command1 = 2,
+    command2 = 3,
 };
 
 int pick_order[10] = {blue, red, red, blue, blue, red, red, blue, blue, red};
-std::string pos_str[5] = {"Top", "Jungle", "Mid", "ADC", "Supporter"};
+std::string pos_str[6] = {"", "Top", "Jungle", "Mid", "ADC", "Supporter"};
 
 namespace champion
 {
@@ -106,6 +107,15 @@ namespace champion
         void set_position(int new_position) { positions.push_back(new_position); }
         int get_position(int i) { return positions[i]; }
 
+        std::string get_myOpponent(int myPos)
+        {
+            for (size_t i = 0; i < names.size(); i++)
+            {
+                if (positions[i] == myPos)
+                    return names[i];
+            }
+        }
+
         void print() const
         {
             std::cout << "Enemy:\t";
@@ -161,6 +171,31 @@ std::string completion(std::string prompt, int max_tokens, float temperature)
     auto completion = openai::completion().create(input);
 
     return (std::string)completion["choices"][0]["text"];
+}
+std::string image_url(std::string prompt)
+{
+    nlohmann::json input;
+
+    input["prompt"] = prompt;
+    input["n"] = 1;
+    input["size"] = "512x512";
+
+    auto image = openai::image().create(input);
+
+    return (std::string)image["data"][0]["url"];
+}
+
+std::string image_url(std::string prompt, std::string size)
+{
+    nlohmann::json input;
+
+    input["prompt"] = prompt;
+    input["n"] = 1;
+    input["size"] = size;
+
+    auto image = openai::image().create(input);
+
+    return (std::string)image["data"][0]["url"];
 }
 
 // 1. blue 1 ban suggest

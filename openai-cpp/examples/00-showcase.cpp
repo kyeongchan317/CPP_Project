@@ -36,6 +36,7 @@ int main()
         char team_color; // blue: b or red: r
         char is_my_turn;
         int myPosition;
+        std::string myChampion;
         int ally, enemy;
 
         std::cout << "Choose Blue Team or Red Team [b/r]: ";
@@ -57,7 +58,7 @@ int main()
             continue;
         }
 
-        std::cout << "Top: 0, Jungle: 1, Mid: 2, ADC: 3, Supporter: 4" << std::endl;
+        std::cout << "1. Top\t2. Jungle\t3. Mid\t4. ADC\t5. Supporter" << std::endl;
         std::cout << "What is your position?" << std::endl;
         std::cin >> myPosition;
 
@@ -93,7 +94,7 @@ int main()
                     std::cin >> name;
 
                     int position;
-                    std::cout << "Top: 0, Jungle: 1, Mid: 2, ADC: 3, Supporter: 4" << std::endl;
+                    std::cout << "1. Top\t2. Jungle\t3. Mid\t4. ADC\t5. Supporter" << std::endl;
                     std::cout << "Input poistion: ";
                     std::cin >> position;
 
@@ -124,6 +125,13 @@ int main()
 
                     std::cout << completion(question, 300, 0) << std::endl;
 
+                    std::string name;
+                    std::cout << "Input picked champion: ";
+                    std::cin >> name;
+
+                    Ally_List.set_name(name);
+                    Ally_List.set_position(myPosition);
+
                     break;
                 }
                 else
@@ -141,7 +149,7 @@ int main()
                 std::cin >> name;
 
                 int position;
-                std::cout << "Top: 0, Jungle: 1, Mid: 2, ADC: 3, Supporter: 4" << std::endl;
+                std::cout << "1. Top\t2. Jungle\t3. Mid\t4. ADC\t5. Supporter" << std::endl;
                 std::cout << "Input poistion: ";
                 std::cin >> position;
 
@@ -163,7 +171,7 @@ int main()
                 std::cin >> name;
 
                 int position;
-                std::cout << "Top: 0, Jungle: 1, Mid: 2, ADC: 3, Supporter: 4" << std::endl;
+                std::cout << "1. Top\t2. Jungle\t3. Mid\t4. ADC\t5. Supporter" << std::endl;
                 std::cout << "Input poistion: ";
                 std::cin >> position;
 
@@ -178,7 +186,7 @@ int main()
                 std::cin >> name;
 
                 int position;
-                std::cout << "Top: 0, Jungle: 1, Mid: 2, ADC: 3, Supporter: 4" << std::endl;
+                std::cout << "1. Top\t2. Jungle\t3. Mid\t4. ADC\t5. Supporter" << std::endl;
                 std::cout << "Input poistion: ";
                 std::cin >> position;
 
@@ -192,12 +200,42 @@ int main()
         int command;
         do
         {
-            std::cout << "exit: 0, next: 1, command: 2" << std::endl;
+            std::cout << "1. Exit\t2. Next Game\t3. How to deal with my opponent\t4. Create a new champion" << std::endl;
             std::cout << "Enter Command: ";
             std::cin >> command;
+
+            std::string question;
+            std::string answer;
             switch (command)
             {
             case command1:
+                question += "How to deal with ";
+                question += Enemy_List.get_myOpponent(myPosition);
+                question += " with ";
+                question += myChampion;
+                question += "?";
+
+                std::cout << question << std::endl;
+                answer = completion(question, 300, 0);
+                std::cout << answer << std::endl;
+                break;
+            case command2:
+                question += "Banned Champions: ";
+                question += Ban_List.info_str();
+                question += "Ally Champions: ";
+                question += Ally_List.info_str();
+                question += "Enemy Champions: ";
+                question += Enemy_List.info_str();
+                question += "Create a new champion for instead of ";
+                question += myChampion;
+                question += ".";
+                std::cout << question << std::endl;
+                answer = completion(question, 300, 0);
+                std::cout << answer << std::endl;
+
+                question = answer;
+                question += "Make a image of the champion.";
+                answer = completion(question, 300, 0);
                 break;
             case next: // go to selecting team color
                 break;
