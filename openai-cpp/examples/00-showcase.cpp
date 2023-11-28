@@ -60,6 +60,7 @@ int main()
         std::cout << "\n1. Top\t\t2. Jungle\t3. Mid\t\t4. ADC\t\t5. Supporter" << std::endl;
         std::cout << "What is your position?" << std::endl;
         std::getline(std::cin, myPosition);
+        std::cout << std::endl;
 
         champion::Ban_Champion Ban_List;
         champion::Ally_Champion Ally_List;
@@ -76,6 +77,7 @@ int main()
 
             Ban_List.set_name(name);
         }
+        std::cout << std::endl;
 
         // 2. check your pick turn or not
         int turn;
@@ -83,10 +85,10 @@ int main()
         {
             if (pick_order[turn] == ally)
             {
-                std::cout << "Is it your pick turn? [y/n]: ";
+                std::cout << "Is it your pick turn? [Y/n]: ";
                 std::getline(std::cin, is_my_turn);
                 // 2-1. if not, append pick list
-                if (is_my_turn == "n" || is_my_turn == "N")
+                if (is_my_turn == "N" || is_my_turn == "n")
                 {
                     std::string name;
                     std::cout << "Ally: "
@@ -123,8 +125,9 @@ int main()
                     question += " in this situation? Without picked or banned champions.";
 
                     std::cout << question << std::endl;
+                    std::cout << std::endl;
 
-                    std::cout << completion(question, 300, 0) << std::endl;
+                    std::cout << completion(question) << std::endl;
 
                     std::cout << "Me: "
                               << "Input picked champion: ";
@@ -163,6 +166,7 @@ int main()
             Ban_List.print();
             Ally_List.print();
             Enemy_List.print();
+            std::cout << std::endl;
         }
         for (; turn < 10; turn++)
         {
@@ -202,6 +206,7 @@ int main()
             Ban_List.print();
             Ally_List.print();
             Enemy_List.print();
+            std::cout << std::endl;
         }
 
         // 5. 상대법 with my 상대 라인 champion
@@ -209,11 +214,13 @@ int main()
         std::string command;
         do
         {
-            std::cout << "\n1. Exit\t\t2. Next Game\t3. How to deal with my opponent\n4. How to deal with enemy team\t5. Create a new champion" << std::endl;
+            std::cout << "\n1. Exit\t\t2. Next Game\t3. How to deal with my opponent\t4. Create a new champion" << std::endl;
             std::cout << "Enter Command: ";
             std::getline(std::cin, command);
+            std::cout << std::endl;
 
             std::string question;
+            std::string edit_command;
             std::string answer;
             std::string champion_info;
             std::string image_url;
@@ -231,8 +238,9 @@ int main()
                 question += "?";
 
                 std::cout << question << std::endl;
-                answer = completion(question, 300, 0);
+                answer = completion(question);
                 std::cout << answer << std::endl;
+                std::cout << std::endl;
                 break;
             case command2:
                 question = "In league of legend, ";
@@ -242,50 +250,43 @@ int main()
                 question += Ally_List.info_str();
                 question += "Enemy Champions: ";
                 question += Enemy_List.info_str();
-                question += "How to deal with enemy team in this situation?";
+
+                edit_command = "erase ";
+                edit_command += myChampion;
+                question = edit(question, edit_command);
+                question += "Create a new champion for ";
+                question += pos_str[stoi(myPosition)];
+                question += " in this situation.";
 
                 std::cout << question << std::endl;
-                answer = completion(question, 300, 0);
-                std::cout << answer << std::endl;
-                break;
-            case command3:
-                question = "In league of legend, ";
-                question += "Banned Champions: ";
-                question += Ban_List.info_str();
-                question += "Ally Champions: ";
-                question += Ally_List.info_str();
-                question += "Enemy Champions: ";
-                question += Enemy_List.info_str();
-                question += "Create a new champion for instead of ";
-                question += myChampion;
-                question += ".";
-
-                std::cout << question << std::endl;
-                champion_info = completion(question, 300, 0);
+                champion_info = completion(question);
                 std::cout << champion_info << std::endl;
+                std::cout << std::endl;
 
-                std::cout << "Do you want to get story of the champion?[Y/N]: ";
+                std::cout << "Do you want to get story of the champion?[Y/n]: ";
                 std::getline(std::cin, make_story);
 
                 if (make_story == "Y" || make_story == "y")
                 {
                     question = champion_info;
-                    question += "Make a story of the champion.";
+                    question += " Make a story of the champion in league of legend.";
                     std::cout << question << std::endl;
-                    answer = completion(question, 300, 0);
+                    answer = completion(question, 600);
                     std::cout << answer << std::endl;
+                    std::cout << std::endl;
                 }
 
-                std::cout << "Do you want to make image of the champion?[Y/N]: ";
+                std::cout << "Do you want to make image of the champion?[Y/n]: ";
                 std::getline(std::cin, make_image);
 
                 if (make_image == "Y" || make_image == "y")
                 {
                     question = champion_info;
-                    question += " Make a image of the champion.";
+                    question += " Make a image of the champion in league of legend.";
                     std::cout << question << std::endl;
+                    std::cout << std::endl;
                     image_url = imageURL(question);
-                    std::cout << image_url << std::endl;
+                    std::cout << "Image URL: " << image_url << std::endl;
                 }
                 break;
             case next: // go to selecting team color

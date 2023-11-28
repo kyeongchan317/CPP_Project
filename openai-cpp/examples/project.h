@@ -138,7 +138,7 @@ std::string completion(std::string prompt)
 
     input["model"] = "text-davinci-003";
     input["prompt"] = prompt;
-    input["max_tokens"] = 7;
+    input["max_tokens"] = 300;
     input["temperature"] = 0;
 
     auto completion = openai::completion().create(input);
@@ -179,7 +179,7 @@ std::string imageURL(std::string prompt)
 
     input["prompt"] = prompt;
     input["n"] = 1;
-    input["size"] = "512x512";
+    input["size"] = "1024x1024";
 
     auto image = openai::image().create(input);
 
@@ -199,22 +199,15 @@ std::string imageURL(std::string prompt, std::string size)
     return (std::string)image["data"][0]["url"];
 }
 
-// 1. blue 1 ban suggest
-// 2. red 1 ban by computer (with current ban list)(random)
-// 3. blue 2 ban suggest (with current ban list)
-// 4. red 2 ban by computer (with current ban list)(random)
-// 5. blue 3 ban suggest (with current ban list)
-// 6. red 3 ban by computer (with current ban list)(random)
+std::string edit(std::string str, std::string edit_str)
+{
+    nlohmann::json input;
 
-// 7. blue 1 pick suggest (with current ban list)
-// 8. red 1 pick, 2 pick by computer (with current ban list & pick list)(random)
-// 9. blue 2 pick, 3 pick suggest (with current ban list & pick list)
-// 10. red 3 pick by computer (with current ban list & pick list)(random)
+    input["model"] = "text-davinci-edit-001";
+    input["input"] = str;
+    input["instruction"] = edit_str;
 
-// 11. red 4 ban by computer (with current ban list & pick list)(random)
-// 12. blue 4 ban, 5 ban suggest (with current ban list & pick list)
-// 13. red 5 ban by computer (with current ban list & pick list)(random)
+    auto edit = openai::edit().create(input);
 
-// 14. red 4 pick by computer (with current ban list & pick list)(random)
-// 15. blue 4 pick, 5 pick suggest (with current ban list & pick list)
-// 16. red 5 pick by computer (with current ban list & pick list)(random)
+    return (std::string)edit["choices"][0]["text"];
+}
