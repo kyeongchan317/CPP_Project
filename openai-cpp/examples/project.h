@@ -177,6 +177,7 @@ std::string imageURL(std::string prompt)
 {
     nlohmann::json input;
 
+    input["model"] = "dall-e-3";
     input["prompt"] = prompt;
     input["n"] = 1;
     input["size"] = "1024x1024";
@@ -190,6 +191,7 @@ std::string imageURL(std::string prompt, std::string size)
 {
     nlohmann::json input;
 
+    input["model"] = "dall-e-3";
     input["prompt"] = prompt;
     input["n"] = 1;
     input["size"] = size;
